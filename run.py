@@ -54,26 +54,26 @@ def validate_data(values):
 
     return True    
 
+# refactored worksheet updates on line 78 update_worksheet
+# def update_sales_worksheet(data):
+#     """
+#     Update the sales worksheet, add a new row with the data
+#     the user inputted.
+#     """
+#     print("Updating sales worksheet...\n")
+#     sales_worksheet = SHEET.worksheet("sales")
+#     sales_worksheet.append_row(data)
+#     print("Sales worksheet updated succesfuly.\n")
 
-def update_sales_worksheet(data):
-    """
-    Update the sales worksheet, add a new row with the data
-    the user inputted.
-    """
-    print("Updating sales worksheet...\n")
-    sales_worksheet = SHEET.worksheet("sales")
-    sales_worksheet.append_row(data)
-    print("Sales worksheet updated succesfuly.\n")
-
-def update_surplus_worksheet(data):
-    """
-    Update the surplus worksheet, add a new row with the data
-    the user inputted.
-    """
-    print("Updating surplus worksheet...\n")
-    surplus_worksheet = SHEET.worksheet("surplus")
-    surplus_worksheet.append_row(data)
-    print("Surplus worksheet updated succesfuly.\n")
+# def update_surplus_worksheet(data):
+#     """
+#     Update the surplus worksheet, add a new row with the data
+#     the user inputted.
+#     """
+#     print("Updating surplus worksheet...\n")
+#     surplus_worksheet = SHEET.worksheet("surplus")
+#     surplus_worksheet.append_row(data)
+#     print("Surplus worksheet updated succesfuly.\n")
 
 def update_worksheet(data, worksheet):
     """
@@ -105,17 +105,34 @@ def calculate_surplus_data(sales_row):
     return surplus_data
 
 
+def get_last_five_entries_sales():
+    """Collect last 5 days sales data from sales worksheet
+    returns the data as a list of lists
+    """
+    sales = SHEET.worksheet("sales")
+    # column = sales.col_values(3)
+    # print(column)
+
+    columns = []
+    for ind in range(1, 7,):
+        column = sales.col_values(ind)
+        columns.append(column[-5:])
+    pprint(columns)
+
+
 def main():
     """
     Run all program functions
     """
     data = get_sales_data()
     sales_data = [int(num) for num in data]
-    update_worksheet(sales_data, "sales")
+    update_worksheet(sales_data, 'sales')
     new_surplus_data = calculate_surplus_data(sales_data)
-    update_worksheet(new_surplus_data, "surplus")
+    update_worksheet(new_surplus_data, 'surplus')
     # print(new_surplus_data)
 
 
 print("Welcome to Love Sandwiches Data Automation")
-main()
+#main()
+
+get_last_five_entries_sales()
